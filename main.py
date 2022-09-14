@@ -12,8 +12,7 @@ def open_text(location):
         return open(location, 'r').readlines()
 
 def main(opt):
-    text = open_text(opt.input)
-    text = [' '.join(TextPreProcessing(t).sentence_tokenize()) for t in text]
+    text = [' '.join(TextPreProcessing(t).sentence_tokenize()) for t in open_text(opt.input)]
     print(text)
 
 if __name__ == '__main__':

@@ -10,7 +10,15 @@ def advanced_flatten_list(alist):
     return flattened_list
 
 def advanced_path_join(alist):
-    return os.path.join(*advanced_flatten_list(alist))
+    if isinstance(alist, list): 
+        if len(alist) > 1:
+            return os.path.join(*advanced_flatten_list(alist))
+        elif len(alist) == 1:
+            return alist[0]
+        else:
+            return ''
+    else:
+        return str(alist)
 
 def _advanced_mkdir(func):
     def wrap(a):
@@ -24,7 +32,7 @@ def advanced_mkdir(dir_list):
     for dir in dir_list:
         dirs = []
         while True:
-            if not os.path.exists(dir):
+            if not os.path.exists(dir) and dir != '':
                 arr = os.path.normpath(dir).split(os.sep)
                 dirs.insert(0, arr[-1])
                 dir = advanced_path_join(arr[:-1])
