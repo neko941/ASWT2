@@ -1,10 +1,11 @@
 import re
-import os
 import json
 import emot
 from textsearch import TextSearch
 from nltk.tokenize import sent_tokenize
 from nltk.tokenize import word_tokenize
+
+from utils import advanced_path_join
 
 class TextPreProcessing():
     def __init__(self, text):
@@ -21,7 +22,7 @@ class TextPreProcessing():
         return self.text.lower()
 
     def expand_contractions(self, lang='english'):
-        contractions_dict = json.load(open(f'corpus/contractions/contractions-{lang}.json'))
+        contractions_dict = json.load(open(advanced_path_join(['corpus', 'contractions', f'contractions-{lang}.json'])))
         ts_basic = TextSearch("insensitive", "norm")
         ts_basic.add(contractions_dict)
         self.text = ts_basic.replace(self.text)
@@ -84,7 +85,7 @@ class TextPreProcessing():
         
     def remove_stopwords(self, lang='english'):
         assert lang in ['english', 'vietnamese']
-        STOPWORDS = set([line.replace('\n', '').strip for line in open(os.path.join(*f'corpus,stopwords,stopwords-{lang}.txt'.split(",")), 'r').readlines()])
+        STOPWORDS = set([line.replace('\n', '').strip() for line in open(advanced_path_join(['corpus' ,'stopwords', f'stopwords-{lang}.txt']), 'r').readlines()])
         self.text = " ".join([word for word in str(self.text).split() if word not in STOPWORDS])
         return self
 
@@ -109,6 +110,3 @@ class TextPreProcessing():
 
     def get_text(self):
         return self.text
-
-lang = 'vi'
-print(os.path.join(*f'corpus,stopwords,stopwords-{lang}.txt'.split(",")))

@@ -1,0 +1,4 @@
+textsearch==0.0.21
+requests==2.23.0
+nltk==3.7
+emot==3.1
